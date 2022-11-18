@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atech | Rastreador Wall-Y</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <link rel="stylesheet" href="index.css">
+
+  <!-- Raiz do Firebase JS SDK (obrigatório, tem que ser o primeiro) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+  <!-- TODO: Coloque aqui os SDKs dos produtos Firebase que você quiser usar
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+  <script>
+    // Configuração do Firebase (não upar no GitHub com os dados reais)
+    const firebaseConfig = {
+      // INSERIR CONFIG DO FIREBASE
+    };
+    // Inicializar o Firebase
+    firebase.initializeApp(firebaseConfig);
+    var database = firebase.database();
+  </script>
+  <script src="app.js" defer></script>
+
+</head>
+
+<body>
+  <input type="checkbox" id="check">
+  <label for="check">
+    <i class="fas fa-bars" id="btn"></i>
+    <i class="fas fa-times" id="cancel"></i>
+  </label>
+  <div class="sidebar">
+    <header>ATECH</header>
+    <a href="#" class="active">
+      <i class="fas fa-compass"></i>
+      <span>Localizar</span>
+    </a>
+    <a href="#">
+      <i class="fas fa-tag"></i>
+      <span>Tags</span>
+    </a>
+    <a href="#">
+      <i class="fas fa-wifi"></i>
+      <span>Beacons</span>
+    </a>
+    <a href="#">
+       <i class="fas fa-map"></i>
+      <span>Local</span>
+    </a>
+
+  </div>
+  <main class="container">
+    <h1>Mapa de Localização das Tags</h1>
+    <canvas id="map" width="500" height="500"></canvas>
+    <p>Distância Âncora 1: <span id="r1"></span>m</p>
+    <p>Distância Âncora 2: <span id="r2"></span>m</p>
+    <p>Distância Âncora 3: <span id="r3"></span>m</p>
+    <p>Coordenadas tag: <br>
+      X: <span id="x"></span>m <br>
+      Y: <span id="y"></span>m
+    </p>
+
+  </main>
+</body>
+
+</html>
