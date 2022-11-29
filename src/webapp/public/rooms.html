@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Atech | Rastreador Wall-Y</title>
+  <title>Locais | Rastreador Wall-Y</title>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -33,7 +33,8 @@
     firebase.initializeApp(firebaseConfig);
     var database = firebase.database();
   </script>
-  <script src="app.js" defer></script>
+  <script src="rooms.js" defer></script>
+
 
 </head>
 
@@ -63,14 +64,31 @@
     </a>
   </div>
   <main class="container">
-    <h1>Mapa de Localização</h1>
-    <select id="room">
-      <option disabled="disabled">Selecione uma sala</option>
-    </select>
+    <h1>Lista de Locais</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            ID
+          </th>
+          <th>
+            Descrição
+          </th>
+          <th>
+            Beacon 1 (MAC)
+          </th>
+          <th>
+            Beacon 2 (MAC)
+          </th>
+          <th>
+            Beacon 3 (MAC)
+          </th>
+        </tr>
+      </thead>
+      <tbody id="rooms-table">
+      </tbody>
 
-    <div id="map-container">
-      <canvas id="map" width="500" height="500"></canvas>
-    </div>
+    </table>
   </main>
 </body>
 

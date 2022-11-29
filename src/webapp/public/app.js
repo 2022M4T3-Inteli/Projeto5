@@ -1,44 +1,94 @@
-// FIREBASE REAL TIME DATABASE
+// FIREBASE REAL TIME DATABASE (RTDB)
 
-// Id única da tag (endereço MAC)
-let macAddress = "F4:12:FA:E2:43:10";
+const devices = {};
+const rooms = {};
 
-// Caminhos do banco de dados
-let distance1Path = `tags/${macAddress}/distance1`;
-let distance2Path = `tags/${macAddress}/distance2`;
-let distance3Path = `tags/${macAddress}/distance3`;
+// Obtém a lista de todas as salas
+const roomsRef = database.ref("rooms");
+roomsRef.on("child_added", (snapshot) => {
+  const id = snapshot.key;
+  const room = snapshot.val();
+  rooms[id] = room;
 
-// Obter referências do banco de dados
-const distance1Ref = database.ref(distance1Path);
-const distance2Ref = database.ref(distance2Path);
-const distance3Ref = database.ref(distance3Path);
+  // Adiciona o nome da sala no select
+  const option = document.createElement("option");
+  option.value = id;
+  option.textContent = room.description;
 
-// Obtem as coordenadas da tag
-const getCoordinates = async () => {
-  let r1, r2, r3;
-  // Faz a leitura dos dados no banco
-  await Promise.all([
-    distance1Ref.once("value", (snapshot) => {
-      r1 = snapshot.val();
-      document.getElementById("r1").innerHTML = Math.round(r1 * 100) / 100;
-    }),
-    distance2Ref.once("value", (snapshot) => {
-      r2 = snapshot.val();
-      document.getElementById("r2").innerHTML = Math.round(r2 * 100) / 100;
-    }),
-    distance3Ref.once("value", (snapshot) => {
-      r3 = snapshot.val();
-      document.getElementById("r3").innerHTML = Math.round(r3 * 100) / 100;
-    }),
-  ]);
+  const roomSelector = document.getElementById("room");
+  roomSelector.appendChild(option);
 
-  // Algoritmo de trilateração (ALTERAR VALORES CONFORME BEACONS)
-  const x1 = 0; // Coordenada do eixo X do beacon 1 (em metros)
-  const y1 = 0; // Coordenada do eixo Y do beacon 1 (em metros)
-  const x2 = 0; // Coordenada do eixo X do beacon 2 (em metros)
-  const y2 = 2; // Coordenada do eixo Y do beacon 2 (em metros)
-  const x3 = 2; // Coordenada do eixo X do beacon 3 (em metros)
-  const y3 = 1; // Coordenada do eixo Y do beacon 3 (em metros)
+  // Background do canvas (mapa do local))
+  document.getElementById("map").style.background =
+    `url('${document.getElementById('room').value}.jpeg') no-repeat center center`;
+});
+
+// Obtém a lista de todos os beacons
+const beaconsRef = database.ref("beacons");
+beaconsRef.on("child_added", (snapshot) => {
+  const id = snapshot.key;
+  const beaconRef = database.ref("beacons/" + id); // Referência do beacon
+  beaconRef.on(
+    "value",
+    async (snapshot) => {
+      const beacon = snapshot.val();
+      const { x, y, color, room } = beacon;
+      devices[snapshot.key] = { x, y, color, room, type: "beacon" };
+      updateCanvas();
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
+});
+
+function getRoomTags() {
+  // Obtém a lista de todas as tags
+  const tagsRef = database.ref("tags");
+  tagsRef.on("child_added", (snapshot) => {
+    const id = snapshot.key;
+    // Para cada tag, atualiza as distâncias automaticamente e calcula as coordenadas
+    const tagRef = database.ref("tags/" + id); // Referência da tag
+    tagRef.on(
+      "value",
+      async (snapshot) => {
+        const tag = snapshot.val();
+
+        const {
+          distance1: r1,
+          distance2: r2,
+          distance3: r3,
+          room,
+          color,
+        } = tag;
+
+        const [x, y] = computeTagCoordinates(r1, r2, r3);
+        devices[id] = { x, y, color, room, type: "tag" };
+
+        updateCanvas();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  });
+}
+
+// Obtem as coordenadas da tag, a partir das distâncias
+const computeTagCoordinates = (r1, r2, r3) => {
+  const room = document.getElementById("room").value;
+  const beacon1 = devices[rooms[room].beacon1];
+  const beacon2 = devices[rooms[room].beacon2];
+  const beacon3 = devices[rooms[room].beacon3];
+
+  // Algoritmo de trilateração
+  const x1 = beacon1.x; // Coordenada do eixo X do beacon 1 (em metros)
+  const y1 = beacon1.y; // Coordenada do eixo Y do beacon 1 (em metros)
+  const x2 = beacon2.x; // Coordenada do eixo X do beacon 2 (em metros)
+  const y2 = beacon2.y; // Coordenada do eixo Y do beacon 2 (em metros)
+  const x3 = beacon3.x; // Coordenada do eixo X do beacon 3 (em metros)
+  const y3 = beacon3.y; // Coordenada do eixo Y do beacon 3 (em metros)
+
   let x; // Coordenada do eixo X da tag (em metros)
   let y; // Coordenada do eixo Y da tag (em metros)
 
@@ -51,50 +101,67 @@ const getCoordinates = async () => {
   x = (C * E - F * B) / (E * A - B * D);
   y = (C * D - A * F) / (B * D - A * E);
 
-  // Round para 2 casas decimais
-  x = Math.round(x * 100) / 100;
-  y = Math.round(y * 100) / 100;
-  document.getElementById("x").innerHTML = x;
-  document.getElementById("y").innerHTML = y;
   return [x, y];
 };
 
 // MAPA DO LOCAL
 
-// Background do canvas (mapa do local))
-document.getElementById("map").style.background =
-  "url('mapa.jpeg') no-repeat center center";
-
 // Desenha um ponto vermelho no mapa
 const canvas = document.getElementById("map");
 const ctx = canvas.getContext("2d");
 
-let roomSizeX = 5; // Tamanho da sala (eixo X) em metros (mundo real)
-let roomSizeY = 5; // Tamanho da sala (eixo Y) em metros (mundo real)
-
-let canvasSizeX = 500; // Tamanho da sala (eixo X) em pixels (canvas)
-let canvasSizeY = 500; // Tamanho da sala (eixo Y) em pixels (canvas)
-
-const updateCanvas = async () => {
-  // Conversão de coordenadas do mundo real para coordenadas do canvas
-  const [xReal, yReal] = await getCoordinates();
-  // Previnir que coordenadas sejam negativas
-  const xCanvas = Math.floor(
-    Math.max(0, Math.min(canvasSizeX, (xReal / roomSizeX) * canvasSizeX))
-  );
-  const yCanvas = Math.floor(
-    Math.max(0, Math.min(canvasSizeY, (yReal / roomSizeY) * canvasSizeY))
-  );
-
+const updateCanvas = () => {
   // Apaga o canvas
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const canvasSizeX = canvas.width;
+  const canvasSizeY = canvas.height;
 
-  ctx.beginPath(); // Inicia o desenho
-  // Mude o valor de x e y para a posição do local
-  ctx.arc(xCanvas, yCanvas, 10, 0, 2 * Math.PI); // Desenha um círculo
-  ctx.fillStyle = "red"; // Cor do ponto
-  ctx.fill(); // Desenha o ponto
-  ctx.closePath(); // Fecha o desenho
+  const room = document.getElementById("room").value
+  if (!rooms[room]) return; // Retorna se a sala não existir no banco de dados
+  let roomSizeX = rooms[room].x; // Tamanho da sala (eixo X) em metros (mundo real)
+  let roomSizeY = rooms[room].y; // Tamanho da sala (eixo Y) em metros (mundo real)
+
+  ctx.clearRect(0, 0, canvasSizeX, canvasSizeY);
+
+  // Filtra os beacons e tags por sala
+  filterByRoom();
+
+  // Loop para desenhar os beacons e tags
+  for (const [key, value] of Object.entries(devices)) {
+    if (devices[key].show) {
+      // Conversão de coordenadas do mundo real para coordenadas do canvas
+      const xCanvas = Math.floor(
+        Math.max(0, Math.min(canvasSizeX, (value.x / roomSizeX) * canvasSizeX))
+      );
+      const yCanvas = Math.floor(
+        Math.max(0, Math.min(canvasSizeY, (value.y / roomSizeY) * canvasSizeY))
+      );
+      ctx.beginPath(); // Inicia o desenho
+      // Mude o valor de x e y para a posição do local
+      ctx.arc(xCanvas, yCanvas, 10, 0, 2 * Math.PI); // Desenha um círculo
+      ctx.fillStyle = value.color || "red"; // Cor do ponto
+      ctx.fill(); // Desenha o ponto
+      ctx.closePath(); // Fecha o desenho
+    }
+  }
 };
 
-updateCanvas(); // Desenha o ponto no canvas
+// Filtra os beacons e tags por sala
+const filterByRoom = () => {
+  const room = document.getElementById("room").value;
+  for (const [key, value] of Object.entries(devices)) {
+    if (value.room === room) {
+      devices[key].show = true;
+    } else {
+      devices[key].show = false;
+    }
+  }
+};
+
+// Dispara filterByRoom quando o usuário seleciona uma sala
+document.getElementById("room").addEventListener("change", (event) => {
+  getRoomTags();
+  document.getElementById("map").style.background =
+    `url('${document.getElementById('room').value}.jpeg') no-repeat center center`;
+});
+
+getRoomTags();
