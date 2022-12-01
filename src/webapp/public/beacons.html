@@ -65,11 +65,11 @@
   </div>
   <main class="container">
     <h1>Lista de Beacons</h1>
-    <table class="table">
+    <table class="table table-responsive-md">
       <thead>
         <tr>
           <th>
-            ID (Endereço MAC)
+            ID
           </th>
           <th>
             SSID
@@ -89,9 +89,38 @@
           <th>
             Posição Y (m)
           </th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="beacons-table">
+        <form id="add-beacon-form">
+          <tr>
+            <td>
+              <input class="form-control" type="text" id="beaconID" placeholder="MAC">
+            </td>
+            <td>
+              <input class="form-control"  type="text" id="ssid" placeholder="SSID">
+            </td>
+            <td>
+              <input class="form-control" type="text" id="password" placeholder="Senha">
+            </td>
+            <td>
+              <input class="form-control" type="text" id="color" placeholder="Cor">
+            </td>
+            <td>
+              <input class="form-control" type="text" id="room" placeholder="Local">
+            </td>
+            <td>
+              <input class="form-control" type="text" id="x" placeholder="X (m)">
+            </td>
+            <td>
+              <input class="form-control" type="text" id="y" placeholder="Y (m)">
+            </td>
+            <td>
+              <button type="submit" class="btn btn-primary w-100" id="new-beacon-button">Salvar</button>
+            </td>
+          </tr>
+        </form>
       </tbody>
     </table>
   </main>

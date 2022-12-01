@@ -65,7 +65,7 @@
   </div>
   <main class="container">
     <h1>Lista de Tags</h1>
-    <table class="table">
+    <table class="table table-responsive-md">
       <thead>
         <tr>
           <th>
@@ -80,9 +80,29 @@
           <th>
             Local
           </th>
+          <th></th>
         </tr>
       </thead>
       <tbody id="tags-table">
+        <form id="add-tag-form">
+          <tr>
+            <td>
+              <input class="form-control" type="text" id="name" placeholder="Nome">
+            </td>
+            <td>
+              <input class="form-control disabled bg-transparent"  type="text" id="tagId" placeholder="MAC" disabled>
+            </td>
+            <td>
+              <input class="form-control" type="text" id="color" placeholder="Cor">
+            </td>
+            <td>
+              <input class="form-control disabled bg-transparent" type="text" id="room" placeholder="Local" disabled>
+            </td>
+            <td>
+              <button type="submit" class="btn btn-primary w-100" id="new-tag-button">Salvar</button>
+            </td>
+          </tr>
+        </form>
       </tbody>
     </table>
   </main>
