@@ -30,7 +30,7 @@ beaconsRef.on("child_added", (snapshot) => {
   const beaconRef = database.ref("beacons/" + id); // Referência do beacon
   beaconRef.on(
     "value",
-    async (snapshot) => {
+    (snapshot) => {
       const beacon = snapshot.val();
       const { x, y, color, room } = beacon;
       devices[snapshot.key] = { x, y, color, room, type: "beacon" };
@@ -51,7 +51,7 @@ function getRoomTags() {
     const tagRef = database.ref("tags/" + id); // Referência da tag
     tagRef.on(
       "value",
-      async (snapshot) => {
+      (snapshot) => {
         const tag = snapshot.val();
 
         const {
@@ -77,6 +77,7 @@ function getRoomTags() {
 // Obtem as coordenadas da tag, a partir das distâncias
 const computeTagCoordinates = (r1, r2, r3) => {
   const room = document.getElementById("room").value;
+
   const beacon1 = devices[rooms[room].beacon1];
   const beacon2 = devices[rooms[room].beacon2];
   const beacon3 = devices[rooms[room].beacon3];
@@ -115,7 +116,7 @@ const updateCanvas = () => {
   const canvasSizeX = canvas.width;
   const canvasSizeY = canvas.height;
 
-  const room = document.getElementById("room").value
+  const room = document.getElementById("room").value;
   if (!rooms[room]) return; // Retorna se a sala não existir no banco de dados
   let roomSizeX = rooms[room].x; // Tamanho da sala (eixo X) em metros (mundo real)
   let roomSizeY = rooms[room].y; // Tamanho da sala (eixo Y) em metros (mundo real)

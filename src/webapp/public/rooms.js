@@ -3,79 +3,78 @@ let deletedRoomId = null; // referencia para a sala que foi deletada
 // Obtém a lista de todas as salas
 const roomsRef = database.ref("rooms");
 roomsRef.on("child_added", (snapshot) => {
-  const tr = document.createElement('tr');
+  const tr = document.createElement("tr");
   tr.id = snapshot.key;
 
-  const tdId = document.createElement('td');
+  const tdId = document.createElement("td");
   tdId.textContent = snapshot.key;
   tr.appendChild(tdId);
 
-  const tdDescription = document.createElement('td');
+  const tdDescription = document.createElement("td");
   tdDescription.textContent = snapshot.val().description;
   tr.appendChild(tdDescription);
 
-  const tdBeacon1 = document.createElement('td');
+  const tdBeacon1 = document.createElement("td");
   tdBeacon1.textContent = snapshot.val().beacon1;
   tr.appendChild(tdBeacon1);
 
-  const tdBeacon2 = document.createElement('td');
+  const tdBeacon2 = document.createElement("td");
   tdBeacon2.textContent = snapshot.val().beacon2;
   tr.appendChild(tdBeacon2);
 
-  const tdBeacon3 = document.createElement('td');
+  const tdBeacon3 = document.createElement("td");
   tdBeacon3.textContent = snapshot.val().beacon3;
   tr.appendChild(tdBeacon3);
 
-  const x = document.createElement('td');
+  const x = document.createElement("td");
   x.textContent = snapshot.val().x;
   tr.appendChild(x);
 
-  const y = document.createElement('td');
+  const y = document.createElement("td");
   y.textContent = snapshot.val().y;
   tr.appendChild(y);
 
-  const tdBtn = document.createElement('td');
-  tdBtn.style.textAlign = 'center';
+  const tdBtn = document.createElement("td");
+  tdBtn.style.textAlign = "center";
 
-  const editBtn = document.createElement('button');
-  editBtn.innerHTML = "<i class=\"fas fa-edit\"></i>";
-  editBtn.classList.add('btn', 'btn-warning', 'btn-sm');
-  editBtn.addEventListener('click', () => {
+  const editBtn = document.createElement("button");
+  editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+  editBtn.classList.add("btn", "btn-warning", "btn-sm");
+  editBtn.addEventListener("click", () => {
     const result = confirm(`Deseja editar ${snapshot.key}?`);
     if (result) {
-      document.getElementById('roomId').value = snapshot.key;
-      document.getElementById('description').value = snapshot.val().description;
-      document.getElementById('beacon1').value = snapshot.val().beacon1;
-      document.getElementById('beacon2').value = snapshot.val().beacon2;
-      document.getElementById('beacon3').value = snapshot.val().beacon3;
-      document.getElementById('x').value = snapshot.val().x;
-      document.getElementById('y').value = snapshot.val().y;
+      document.getElementById("roomId").value = snapshot.key;
+      document.getElementById("description").value = snapshot.val().description;
+      document.getElementById("beacon1").value = snapshot.val().beacon1;
+      document.getElementById("beacon2").value = snapshot.val().beacon2;
+      document.getElementById("beacon3").value = snapshot.val().beacon3;
+      document.getElementById("x").value = snapshot.val().x;
+      document.getElementById("y").value = snapshot.val().y;
       window.scrollTo(0, 0); // scroll para o topo da pagina
     }
   });
   tdBtn.appendChild(editBtn);
 
-  const deleteBtn = document.createElement('button');
-  deleteBtn.innerHTML = "<i class=\"fas fa-trash\"></i>";
-  deleteBtn.classList.add('btn', 'btn-danger', 'btn-sm', 'ml-2');
-  deleteBtn.addEventListener('click', () => {
+  const deleteBtn = document.createElement("button");
+  deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+  deleteBtn.classList.add("btn", "btn-danger", "btn-sm", "ml-2");
+  deleteBtn.addEventListener("click", () => {
     const result = confirm(`Deseja deletar ${snapshot.key}?`);
     if (result) {
       deletedRoomId = snapshot.key;
       roomsRef.child(snapshot.key).remove();
     }
-
   });
   tdBtn.appendChild(deleteBtn);
 
   tr.appendChild(tdBtn);
 
-  const roomsTable = document.getElementById('rooms-table');
+  const roomsTable = document.getElementById("rooms-table");
   roomsTable.appendChild(tr);
 });
 
-const addRoomForm = document.getElementById('add-room-form');
-addRoomForm.addEventListener('submit', (event) => {
+const addRoomForm = document.getElementById("add-room-form");
+addRoomForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const id = addRoomForm.roomId.value;
   const description = addRoomForm.description.value;
@@ -89,8 +88,8 @@ addRoomForm.addEventListener('submit', (event) => {
     beacon1,
     beacon2,
     beacon3,
-    x,
-    y
+    x: parseInt(x),
+    y: parseInt(y),
   });
   addRoomForm.reset();
 });
@@ -108,4 +107,17 @@ roomsRef.on("child_changed", (snapshot) => {
   tr.childNodes[4].textContent = snapshot.val().beacon3;
   tr.childNodes[5].textContent = snapshot.val().x;
   tr.childNodes[6].textContent = snapshot.val().y;
+
+  // Update botão de edit
+  const editBtn = tr.childNodes[7].childNodes[0];
+  editBtn.addEventListener("click", () => {
+    document.getElementById("roomId").value = snapshot.key;
+    document.getElementById("description").value = snapshot.val().description;
+    document.getElementById("beacon1").value = snapshot.val().beacon1;
+    document.getElementById("beacon2").value = snapshot.val().beacon2;
+    document.getElementById("beacon3").value = snapshot.val().beacon3;
+    document.getElementById("x").value = snapshot.val().x;
+    document.getElementById("y").value = snapshot.val().y;
+    window.scrollTo(0, 0); // scroll para o topo da pagina
+  });
 });
