@@ -33,11 +33,6 @@ Atualmente, existe uma dificuldade na localização de objetos ou pessoas em amb
   - <a href="https://github.com/2022M4T3-Inteli/Projeto5/tree/main/documentos">📂</a> <b>documentação</b> <br><br>
   - <a href="https://github.com/2022M4T3-Inteli/Projeto5/tree/main/src"><img src="https://user-images.githubusercontent.com/99209356/174962579-d242f1e5-3902-4de1-9236-0aba4d48513c.svg" width="18px" height="18px"></a> <b>src</b> <br><br>
 
-
-## 💻 Configuração para desenvolvimento
-
-
-
 ## 🗃 Histórico de lançamentos (versões)
 
 - 5.0 - 16/12/2022
@@ -53,9 +48,6 @@ Atualmente, existe uma dificuldade na localização de objetos ou pessoas em amb
 - 1.0 - 21/10/2022
   - Primeira entrega - Modelo de negócios, Persona, User Journey, Matriz de Risco e Arquitetura da Solução
   - 10/10/2022 - Projeto iniciado
-
-## 🎯 Exemplos de uso
-
 
 ## 📋 Licença
 
