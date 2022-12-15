@@ -41,6 +41,7 @@ Atualmente, existe uma dificuldade na localização de objetos ou pessoas em amb
 ## 🗃 Histórico de lançamentos (versões)
 
 - 5.0 - 16/12/2022
+- Quinta entrega - Front-End final, buzzer e led sincronizados para facilitar a procura da tag.
 
 - 4.0 - 02/12/2022
 - Quarta entrega - Front-End (versão 2), comunicação do front-end para o ESP32, localizador de ambiente(sala) que se encontra a tag.
