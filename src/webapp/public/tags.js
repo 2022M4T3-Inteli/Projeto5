@@ -25,9 +25,22 @@ tagsRef.on("child_added", (snapshot) => {
   const tdBtn = document.createElement("td");
   tdBtn.style.textAlign = "center";
 
+  const buzzerBtn = document.createElement("button");
+  buzzerBtn.innerHTML = '<i class="fas fa-bullhorn"></i>';
+  buzzerBtn.classList.add("btn", "btn-success", "btn-sm");
+  buzzerBtn.addEventListener("click", () => {
+    const result = confirm(`Deseja tocar o buzzer da tag ${snapshot.key}?`);
+    if (result) {
+      tagsRef.child(snapshot.key).update({
+        actuators: true,
+      });
+    }
+  });
+  tdBtn.appendChild(buzzerBtn);
+
   const editBtn = document.createElement("button");
   editBtn.innerHTML = '<i class="fas fa-edit"></i>';
-  editBtn.classList.add("btn", "btn-warning", "btn-sm");
+  editBtn.classList.add("btn", "btn-warning", "btn-sm", "ml-2");
   editBtn.addEventListener("click", () => {
     const result = confirm(`Deseja editar ${snapshot.key}?`);
     if (result) {
