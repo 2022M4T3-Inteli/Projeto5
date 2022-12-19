@@ -10,10 +10,7 @@
 # Projeto: Atech Wall-Y
 
 ## Grupo 5: Wall-Y
-<div align="center">
-<img src="https://www.google.com/url?sa=i&url=http%3A%2F%2Fwww.tshirtroundup.com%2Ftag%2Fwall-e&psig=AOvVaw1u4XB1OwUeyFRYQjXHGzuh&ust=1670948519786000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCLiPl7q-9PsCFQAAAAAdAAAAABAf">
-<a href="https://github.com/2022M4T3-Inteli/Projeto5" target="_blank">Fonte: Imagem retirada da: http://www.tshirtroundup.com/tag/wall-e </a>
-</div>
+
 
 ## 🚀 Integrantes:
 - <a href="https://www.linkedin.com/in/rodrigo-moraes-martins-/">Rodrigo Moraes Martins</a>
@@ -29,9 +26,31 @@ Atualmente, existe uma dificuldade na localização de objetos ou pessoas em amb
 
 ## 📁 Estrutura de pastas
 
-- 📁 Projeto5<br><br>
-  - <a href="https://github.com/2022M4T3-Inteli/Projeto5/tree/main/documentos">📂</a> <b>documentação</b> <br><br>
-  - <a href="https://github.com/2022M4T3-Inteli/Projeto5/tree/main/src"><img src="https://user-images.githubusercontent.com/99209356/174962579-d242f1e5-3902-4de1-9236-0aba4d48513c.svg" width="18px" height="18px"></a> <b>src</b> <br><br>
+
+|--> documentos<br>
+  &emsp;| --> outros <br> 	
+  &emsp;| T3_G5_V5_3_IoT_Document.pdf<br>
+  &emsp;| T3_G5_V1_4_Instruction_Manual.pdf<br>
+|--> src<br>
+  &emsp;|--> Circuito<br>
+  &emsp;|--> Web<br>
+| readme.md<br>
+
+Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
+
+- <b>readme.md</b>: arquivo que serve como guia e explicação geral sobre o projeto (o mesmo que você está lendo agora).
+
+- <b>documentos</b>: aqui estão todos os documentos do projeto, incluindo o manual de instruções. Há também uma pasta denominada <b>outros</b> onde estão presentes outros documentos complementares.
+
+- <b>src</b>: todo o código fonte criado para o desenvolvimento do projeto, incluindo os blocos de código do circuito, backend e frontend se aplicáveis.
+
+## 💻 Execução do projeto
+
+Um guia para a execução desse projeto pode ser encontrado no conteúdo do documento "Manual de Instruções", dentro da pasta "documentos".
+
+Se preferir, também é possível acessá-lo a partir do seguinte link:
+
+https://github.com/2022M4T3-Inteli/Wall-Y/tree/main/documentos/T3_G5_V1_4_Instruction_Manual.pdf
 
 ## 🗃 Histórico de lançamentos (versões)
 
@@ -52,7 +71,3 @@ Atualmente, existe uma dificuldade na localização de objetos ou pessoas em amb
 ## 📋 Licença
 
 <img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="#">Wall-Y</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://www.inteli.edu.br/">Inteli</a>, <a href="https://www.linkedin.com/in/rodrigo-moraes-martins-/">Rodrigo Moraes Martins</a>, <a href="https://www.linkedin.com/in/erictach/">Eric Tachdjian</a>, <a href="https://www.linkedin.com/in/mateussda/">Mateus Soares De Almeida</a>, <a href="https://www.linkedin.com/in/sbutori/">Stefano Butori</a>, <a href="https://www.linkedin.com/in/beatriz-hirasaki-leite-b2261923a/">Beatriz Hirasaki Leite</a> and <a href="https://www.linkedin.com/in/rafael-moritz/">Rafael Lupovici Moritz</a>, is licensed under <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution 4.0 International</a>.</p>
-
-
-
-## 📚 Referências
